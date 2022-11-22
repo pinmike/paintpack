@@ -32,8 +32,10 @@ class PaintSession
 	{
         // ** ENTER YOUR CREDENTIALS HERE **
 
-		$this->loginName = "";
-		$this->password = "";
+        //$this->loginName = "testmp";
+        //$this->password = "A,Iadbmm.";
+        $this->loginName = "Matsmiths.sys";
+        $this->password = "sJWzad75UCbpYooUX2WAFv/7QxEwLjExNjY2OA==";
     }
 
     /**
@@ -152,7 +154,7 @@ class PaintSession
      * and returning a hashtable of hashtables as the result
      * if successful, or throw an exception if unsuccessful.
      */
-    public function sendRequest($className, $processName, $entityInput, $processInput)
+    public function sendRequest($className, $processName, $entityInput, $processInput = array())
     {
     	$client = null;
         $resultOutput = null;

@@ -12,7 +12,7 @@ class PaintMethods extends PaintSession
     /**
      * Search messages
      */
-    public function searchMessages($messageName = null)
+    public function searchMessages($messageName = null, $messageId = null)
     {
         $searchInput = array();
         $resultOutput = null;
@@ -21,6 +21,10 @@ class PaintMethods extends PaintSession
         if(!empty($messageName))
         {
             $searchInput["messageName"] = $messageName;
+        } else
+        {
+            $searchInput["messageId"] = $messageId;
+
         }
 
         $resultOutput = $this->search("bus_facade_campaign_message", $searchInput);
@@ -354,6 +358,24 @@ class PaintMethods extends PaintSession
         // Use the unique id to retrieve the delivery and return the bean data
         $resultOutput = $this->sendRequest("bus_facade_campaign_delivery", "load", $entityInput, null);
         $resultOutput = $resultOutput["bus_entity_campaign_delivery"];      
+        
+        return $resultOutput;
+    }
+    
+    /**
+    * Load an existing message using a reference number. 
+    */
+    public function loadMessage($messageId)
+    {
+        $entityInput    = null;
+        $resultOutput   = null;
+        
+        $entityInput = array("messageId" => $messageId);
+$processInput = array("loglevel" => "CTQE");
+
+        // Use the unique id to retrieve the msg and return the bean data
+        $resultOutput = $this->sendRequest("bus_facade_campaign_email", "load", $entityInput, $processInput);
+        $resultOutput = $resultOutput["bus_entity_campaign_email"];      
         
         return $resultOutput;
     }

@@ -6,39 +6,37 @@
 	require_once("pure360/PaintMethods.php");
 
 	// Receive data posted from the form
-	$processInd		= (!empty($_REQUEST["processInd"])? $_REQUEST["processInd"]: "N");
-	
-	$messageName	= (!empty($_REQUEST["messageName"])? $_REQUEST["messageName"]: null);		
-	$messageId		= (!empty($_REQUEST["messageId"])? $_REQUEST["messageId"]: null);		
+	$messageId 	= (!empty($_REQUEST["messageId"])? $_REQUEST["messageId"]: null);
 	$output			= "";
-	$searchOutput	= "";
-	$eventData		= "";
+	$deliveryData	= "";
 	
 	// Send the request to process
-	if($processInd=="Y")
+	if(!empty($messageId))
 	{		
+	    $paint = new PaintMethods();
+	     
         try
         {
-	      	$output			= "";
+        	$messageOutput = null;
+        	$displayFields	= array("messageName");
         	
             // ***** Log in and create a context *****
-            $paint = new PaintMethods();
             $paint->login();
 
-            // ***** Retrieve the event data *****
-            //$searchResult = $paint->searchMessages($messageName);
-            $searchResult = $paint->searchMessages($messageName, $messageId);
+            // ***** Load the delivery record *****
+            $messageOutput = $paint->loadMessage($messageId);
 
-
-			// Output the meta data as a readable string
-			foreach($searchResult as $searchResultItem)
-			{
-				$searchOutput.= print_r($searchResultItem,true)."\n\n";
-			}
-						
             // Output to help the user see what's going on.
-            $output = "Matching message(s) found (see below)<BR/><BR/>";     
+            $output = "Message found.  See below for details:<BR/><BR/>";
             
+            // Remove some of the less interesting data from the array and then output the rest
+            foreach($messageOutput as $fieldName=>$fieldValue)
+            {
+            	if(in_array($fieldName, $displayFields))
+            	{
+		            $messageData .= $fieldName." = ".$fieldValue."\n";
+		        }
+	        }
         }
         catch (PaintValidationException $pve)
         {
@@ -67,11 +65,7 @@
         catch (Exception $exp)
         {
         	// Ignore
-        }		
-		
-	} else
-	{
-       	// Ignore
+        }				
 	}
 ?>
 
@@ -83,32 +77,17 @@
 </head>
 <body>
     <form action="" method="post">
-	    <input type="hidden" name="processInd" value="Y" />
-	    <div>
-	        <a href="index.htm"><b>home</b></a><br />
-	        <br />
-			Search messages with a message name parameter (optional)
-	        <br />
-	        <font color="red"><?php echo $output; ?></font>
-			Message name (optional):<br />
-	        <input name="messageName" value="<?php echo $messageName; ?>" size="50"/><br />
-	        <br />
-	        <br />
-			Message ID (optional):<br />
-	        <input name="messageID" value="<?php echo $messageID; ?>" size="50"/><br />
-	        <br />
-	        <br />
-	        Result:<br />
-	        <em>(the returned messages will be displayed below)</em><br />
-	        <br/>
-	        <b>Messages returned:</b>
-	        <br/>
-	        <br/>
-	        <?php echo $searchOutput;?>
-			<br/>
-			<br/>
-	        <input type="submit" value="Search messages" /></div>
-	    </div>
+    <div>
+        <a href="index.htm"><b>home</b></a><br />
+        <br />
+        Load an existing message by ID.&nbsp; You will need the reference number (message id) that was 
+        returned when the message was created.<br />
+        <br />
+        <font color="red"><?php echo $output; ?></font>Message reference (id):
+        <input name="messageId" value="<?php echo $messageId; ?>"/>
+        <input type="submit" value="Load message" />
+		<pre><?php echo $messageData; ?></pre>
+    </div>
     </form>
 </body>
 </html>
