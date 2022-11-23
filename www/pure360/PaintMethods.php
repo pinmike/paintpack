@@ -371,7 +371,6 @@ class PaintMethods extends PaintSession
         $resultOutput   = null;
         
         $entityInput = array("messageId" => $messageId);
-$processInput = array("loglevel" => "CTQE");
 
         // Use the unique id to retrieve the msg and return the bean data
         $resultOutput = $this->sendRequest("bus_facade_campaign_email", "load", $entityInput, $processInput);
