@@ -32,10 +32,10 @@ class PaintSession
 	{
         // ** ENTER YOUR CREDENTIALS HERE **
 
-        //$this->loginName = "testmp";
-        //$this->password = "A,Iadbmm.";
-        $this->loginName = "Matsmiths.sys";
-        $this->password = "sJWzad75UCbpYooUX2WAFv/7QxEwLjExNjY2OA==";
+        //$this->loginName = "";
+        //$this->password = "";
+        $this->loginName = "";
+        $this->password = "";
     }
 
     /**
