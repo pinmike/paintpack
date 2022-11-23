@@ -14,9 +14,8 @@ date_default_timezone_set('Europe/London');
 */
 class PaintSession
 {
-	/** WSDL URL **/
-//	protected $wsdlUrl = "http://paint.pure360.com/paint.pure360.com/ctrlPaint.wsdl";
-	protected $wsdlUrl = "http://emailapi.co.uk/emailapi.co.uk/ctrlPaint.wsdl";
+    /** WSDL URL **/
+    protected $wsdlUrl = "http://emailapi.co.uk/emailapi.co.uk/ctrlPaint.wsdl";
 
     /** Id to link requests together between logging in and out **/
     protected $contextId;
@@ -31,9 +30,6 @@ class PaintSession
     public function __construct()
 	{
         // ** ENTER YOUR CREDENTIALS HERE **
-
-        //$this->loginName = "";
-        //$this->password = "";
         $this->loginName = "";
         $this->password = "";
     }
